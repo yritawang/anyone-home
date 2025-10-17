@@ -10,31 +10,39 @@
 <body>
     <div class="scene-container">
         <div id="exterior" class="scene">
-        <div id="doorOverlay"></div>
-        <div class="scene-label">Exterior / Door</div>
-    </div>
-<div id="interior" class="scene hidden">
-    <div id="doorOverlay2"></div>
-    <div id="wallOverlay"></div>
-    <div class="scene-label">Interior / Room</div>
-</div>
-
-<div id="messageboard" class="scene hidden">
-    <div id="wallOverlay4"></div>
-    <div id="writeMessageBtn"></div>
-    <div class="messages-container" id="messagesContainer"></div>
-    <div id="messageInputOverlay" class="message-input-overlay hidden">
-    <div class="message-input-content">
-        <textarea id="messageInput" placeholder="Write your message here..."></textarea>
-        <input type="text" id="nameInput" placeholder="Your name" class="name-input">
-        <div class="button-group">
-            <button class="messageboard-button" id="submitBtn">Submit</button>
-            <button class="messageboard-button" id="closeInputBtn">Close</button>
+            <div id="doorOverlay"></div>
+            <div class="scene-label">Exterior / Door</div>
+        </div>
+        <div id="interior" class="scene hidden">
+            <div id="doorOverlay2"></div>
+            <div id="wallOverlay"></div>
+            <div class="scene-label">Interior / Room</div>
+        </div>
+        <div id="messageboard" class="scene hidden">
+            <div id="wallOverlay4"></div>
+            <div id="writeMessageBtn"></div>
+            <div class="messages-container" id="messagesContainer"></div>
+            <div class="scene-label">Exterior / Door</div>
+            <div id="messageInputOverlay" class="message-input-overlay hidden">
+                <div class="message-input-content">
+                    <textarea id="messageInput" placeholder="Write your message here..."></textarea>
+                    <input type="text" id="nameInput" placeholder="Your name" class="name-input">
+                    <div class="button-group">
+                        <button class="messageboard-button" id="submitBtn">Submit</button>
+                        <button class="messageboard-button" id="closeInputBtn">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="aboutBtn" class="about-button">About</div>
+        <div id="aboutOverlay" class="about-overlay hidden">
+            <div class="about-content">
+                <span class="about-close">&times;</span>
+                <h2>About</h2>
+                <p>Have I been ghosting you? My bad. I do that a lot. I also don't spend a lot of time in my room. So, um...</p>
+                <p style="margin-top: 20px; font-style: italic;">Drop your message for me here, right into my room. I will read it. Honestly I spend more time on my computer than I do in my room. So you will reach me here.</p>
+            </div>
         </div>
     </div>
-</div>
-</div>
-</div>
-</div>
 </body>
 </html>

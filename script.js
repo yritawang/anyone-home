@@ -145,6 +145,10 @@ window.addEventListener('resize', positionWall);
 window.addEventListener('resize', positionWallOverlay4);
 
 // Render messages
+let draggedCard = null;
+let offsetX = 0;
+let offsetY = 0;
+
 function renderMessages() {
     const container = document.getElementById('messagesContainer');
     container.innerHTML = '';
@@ -152,7 +156,17 @@ function renderMessages() {
     messages.forEach((msg) => {
         const card = document.createElement('div');
         card.className = 'message-card';
-        card.textContent = msg;
+        
+        const messageText = document.createElement('div');
+        messageText.className = 'message-text';
+        messageText.textContent = msg.text;
+        
+        const messageName = document.createElement('div');
+        messageName.className = 'message-name';
+        messageName.textContent = `— ${msg.name || 'Unknown'}`;
+        
+        card.appendChild(messageText);
+        card.appendChild(messageName);
         
         const randomX = Math.random() * (window.innerWidth - 150);
         const randomY = Math.random() * (window.innerHeight - 80);
@@ -162,10 +176,32 @@ function renderMessages() {
         card.style.width = (80 + Math.random() * 120) + 'px';
         card.style.height = (60 + Math.random() * 80) + 'px';
         
+        // Drag functionality
+        card.addEventListener('mousedown', (e) => {
+            draggedCard = card;
+            const rect = card.getBoundingClientRect();
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
+            card.style.zIndex = 1000;
+        });
+        
         container.appendChild(card);
     });
 }
 
+document.addEventListener('mousemove', (e) => {
+    if (draggedCard) {
+        draggedCard.style.left = (e.clientX - offsetX) + 'px';
+        draggedCard.style.top = (e.clientY - offsetY) + 'px';
+    }
+});
+
+document.addEventListener('mouseup', () => {
+    if (draggedCard) {
+        draggedCard.style.zIndex = 10;
+        draggedCard = null;
+    }
+});
 // Initial display setup
 doorOverlay2.style.display = 'none';
 wallOverlay.style.display = 'none';
@@ -242,7 +278,7 @@ document.getElementById('submitBtn').addEventListener('click', () => {
     if (messageInput.value.trim()) {
         messages.push({
             text: messageInput.value.trim(),
-            name: nameInput.value.trim() || 'Anonymous'
+            name: nameInput.value.trim() || 'mysterious visitor'
         });
         nameInput.value = '';
         messageInput.value = '';
@@ -251,36 +287,9 @@ document.getElementById('submitBtn').addEventListener('click', () => {
     }
 });
 
-function renderMessages() {
-    const container = document.getElementById('messagesContainer');
-    container.innerHTML = '';
-    
-    messages.forEach((msg) => {
-        const card = document.createElement('div');
-        card.className = 'message-card';
-        
-        const messageText = document.createElement('div');
-        messageText.className = 'message-text';
-        messageText.textContent = msg.text;
-        
-        const messageName = document.createElement('div');
-        messageName.className = 'message-name';
-        messageName.textContent = `— ${msg.name}`;
-        
-        card.appendChild(messageText);
-        card.appendChild(messageName);
-        
-        const randomX = Math.random() * (window.innerWidth - 150);
-        const randomY = Math.random() * (window.innerHeight - 80);
-        
-        card.style.left = randomX + 'px';
-        card.style.top = randomY + 'px';
-        card.style.width = (80 + Math.random() * 120) + 'px';
-        card.style.height = (60 + Math.random() * 80) + 'px';
-        
-        container.appendChild(card);
-    });
-}
+//messageName.textContent = `— ${msg.name || 'No name'}`;
+//messageName.textContent = `— ${msg.name || 'A visitor'}`;
+//messageName.textContent = `— ${msg.name || 'Mysterious Mf'}`;
 
 document.getElementById('closeInputBtn').addEventListener('click', () => {
     document.getElementById('messageInputOverlay').classList.add('hidden');
@@ -293,3 +302,20 @@ document.getElementById('messageInput').addEventListener('keydown', (e) => {
     }
 });
 
+const aboutBtn = document.getElementById('aboutBtn');
+const aboutOverlay = document.getElementById('aboutOverlay');
+const aboutClose = document.querySelector('.about-close');
+
+aboutBtn.addEventListener('click', () => {
+    aboutOverlay.classList.remove('hidden');
+});
+
+aboutClose.addEventListener('click', () => {
+    aboutOverlay.classList.add('hidden');
+});
+
+aboutOverlay.addEventListener('click', (e) => {
+    if (e.target === aboutOverlay) {
+        aboutOverlay.classList.add('hidden');
+    }
+});
