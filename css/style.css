@@ -1,0 +1,518 @@
+/* =========================================================
+   BASE STYLES
+========================================================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: black;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* fonts */
+@font-face {
+  font-family: 'tiny';
+  src: url('../fonts/TINY5x3GX.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'compagnon';
+  src: url('../fonts/Compagnon-Light.woff') format('truetype');
+}
+@font-face {
+  font-family: 'anto';
+  src: url(../fonts/BVHAntoRoundedMonoTrial-Light.otf) format('opentype');
+}
+
+/* =========================================================
+   SCENE CONTAINERS + TRANSITIONS
+========================================================= */
+.scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+  z-index: 1;
+}
+
+.scene.active {
+  opacity: 1;
+  pointer-events: all;
+  z-index: 2;
+}
+
+/* Fade animations (for optional transitions) */
+.fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
+.fade-out {
+  animation: fadeOut 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Optional overlay for cinematic fade */
+#transitionOverlay {
+  position: fixed;
+  inset: 0;
+  background: black;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+  z-index: 999;
+}
+#transitionOverlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* =========================================================
+   BACKGROUND IMAGES
+========================================================= */
+#exterior {
+  background-image: url("../assets/images/frontdoor.JPG");
+}
+
+#exterior2 {
+  background-image: url("../assets/images/frontdoor2.jpg");
+}
+
+#interior {
+  background-image: url("../assets/images/room1.JPG");
+}
+
+#room2 {
+  background-image: url("../assets/images/mainroom2.JPG");
+}
+
+#messageBoard1 {
+  background-image: url("../assets/images/messageboard1.jpg");
+}
+
+#messageBoard2 {
+  background-image: url("../assets/images/messageboard2.jpg");
+}
+
+
+/* =========================================================
+   HOTSPOTS
+========================================================= */
+.door.box,
+.leave.box,
+.view.box,
+.write.box {
+  position: absolute;
+  color: rgba(255, 255, 255, 0);
+  font-family: 'compagnon', sans-serif;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 130px;
+  transition: color 0.3s ease;
+  z-index: 5;
+}
+
+.door.box:hover,
+.leave.box:hover,
+.view.box:hover,
+.write.box:hover {
+  color: rgb(255, 255, 255);
+}
+
+.door.box { font-size: 2rem; }
+.leave.box,
+.view.box,
+.write.box { font-size: 1.5rem; }
+
+/* --- Hotspot Positions --- */
+#door,
+#door2 {
+  bottom: 36%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#exit { top: 50%; right: 60%; }
+#exitRoom2 { bottom: 30%; left: 0.2%; }
+#viewMessage1 { bottom: 50%; left: 38%; }
+#viewMessage2 { bottom: 50%; left: 38%; }
+#addMessageBtn1,
+#addMessageBtn2 {
+  bottom: 38%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* --- Navigation arrows --- */
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  font-family: 'compagnon', sans-serif;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+  padding: 20px;
+  user-select: none;
+  transition: opacity 0.3s ease;
+}
+.nav-arrow:hover { opacity: 0.6; }
+.nav-arrow.right { right: 2%; }
+.nav-arrow.left { left: 2%; }
+
+/* =========================================================
+   NAVIGATION + BUTTONS
+========================================================= */
+.back-button,
+.about-button {
+  position: fixed;
+  font-family: 'compagnon', sans-serif;
+  font-size: 1rem;
+  color: white;
+  background: transparent;
+  padding: 4px 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.back-button {
+  top: 40px;
+  left: 40px;
+}
+.about-button {
+  bottom: 40px;
+  right: 40px;
+}
+.back-button:hover,
+.about-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* =========================================================
+   INSTRUCTION TEXT
+========================================================= */
+.instruction {
+  position: absolute;
+  font-family: 'compagnon', sans-serif;
+  bottom: 18px;
+  left: 15px;
+  color: white;
+  font-size: 1.2rem;
+  padding: 6px 16px;
+  z-index: 2;
+}
+
+/* =========================================================
+   MESSAGE OVERLAYS
+========================================================= */
+.overlay,
+#message-board,
+#message-board-1,
+#message-board-2 {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+  z-index: 999;
+}
+.overlay.active,
+#message-board.active,
+#message-board-1.active,
+#message-board-2.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* --- Message form box --- */
+.form-box {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #444;
+  padding: 24px 28px;
+  width: 460px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+.overlay.active .form-box,
+#message-board.active .form-box,
+#message-board-1.active .form-box,
+#message-board-2.active .form-box {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* --- Inputs --- */
+textarea,
+input {
+  width: 100%;
+  background: #1a1a1a;
+  color: #ddd;
+  border: 1px solid #444;
+  padding: 12px;
+  box-sizing: border-box;
+}
+textarea { height: 120px; resize: none; }
+
+/* --- Buttons --- */
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.form-buttons button {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 10px 24px;
+  cursor: pointer;
+  transition: background 0.3s ease, border 0.3s ease, color 0.3s ease;
+}
+.form-buttons button:hover {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+}
+
+/* =========================================================
+   ABOUT OVERLAY
+========================================================= */
+.about-overlay {
+  position: fixed;
+  font-family: 'anto', monospace;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+  z-index: 1000;
+}
+.about-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.about-content {
+  background: black;
+  color: white;
+  padding: 30px;
+  border: #444 1.5px solid;
+  border-radius: 10px;
+  max-width: 600px;
+  line-height: 1.6;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.about-overlay.active .about-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+.close-about {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+.close-about:hover { opacity: 0.7; }
+
+/* =========================================================
+   MESSAGE NOTES
+========================================================= */
+.message {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 16px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-size: 1rem;
+  max-width: 240px;
+  line-height: 1.4;
+  backdrop-filter: blur(4px);
+  animation: fadeInMessage 0.9s ease forwards;
+  z-index: 4;
+}
+
+.message strong {
+  display: block;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.clear-board {
+  position: fixed; /* make it float above everything */
+  top: 40px;
+  right: 40px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-family: "Compagnon", sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  z-index: 9999; /* ensure it's always visible */
+  transition: background 0.3s ease;
+}
+
+.clear-board:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+@keyframes fadeInMessage {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    filter: blur(2px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.02);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =========================================================
+   PASSWORD FADE-IN CINEMATIC
+========================================================= */
+.password-screen {
+  position: fixed;
+  inset: 0;
+  background: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+  z-index: 2000;
+}
+
+.password-screen.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.password-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+.password-box {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #444;
+  padding: 40px 50px;
+  text-align: center;
+  font-family: 'compagnon', sans-serif;
+  transform: translateY(0);
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.password-box h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+.password-box input {
+  background: #111;
+  color: white;
+  border: 1px solid #444;
+  padding: 10px;
+  width: 200px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.password-box button {
+  background: transparent;
+  color: white;
+  border: 1px solid #555;
+  padding: 10px 30px;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.password-box button:hover {
+  background: white;
+  color: black;
+}
+
+#password-error {
+  color: #ff5555;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  height: 1em;
+}
+
+/* ===== Fade Overlay for Transition ===== */
+.fade-overlay {
+  position: fixed;
+  inset: 0;
+  background: black;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.fade-to-black {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.fade-from-black {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+
+/* =========================================================
+   UTILITIES
+========================================================= */
+.hidden { display: none !important; }
+
+

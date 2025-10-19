@@ -1,48 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anyone Home?</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>anyone home?</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="scene-container">
-        <div id="exterior" class="scene">
-            <div id="doorOverlay"></div>
-            <div class="scene-label">Exterior / Door</div>
-        </div>
-        <div id="interior" class="scene hidden">
-            <div id="doorOverlay2"></div>
-            <div id="wallOverlay"></div>
-            <div class="scene-label">Interior / Room</div>
-        </div>
-        <div id="messageboard" class="scene hidden">
-            <div id="wallOverlay4"></div>
-            <div id="writeMessageBtn"></div>
-            <div class="messages-container" id="messagesContainer"></div>
-            <div class="scene-label">Exterior / Door</div>
-            <div id="messageInputOverlay" class="message-input-overlay hidden">
-                <div class="message-input-content">
-                    <textarea id="messageInput" placeholder="Write your message here..."></textarea>
-                    <input type="text" id="nameInput" placeholder="Your name" class="name-input">
-                    <div class="button-group">
-                        <button class="messageboard-button" id="submitBtn">Submit</button>
-                        <button class="messageboard-button" id="closeInputBtn">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="aboutBtn" class="about-button">About</div>
-        <div id="aboutOverlay" class="about-overlay hidden">
-            <div class="about-content">
-                <span class="about-close">&times;</span>
-                <h2>About</h2>
-                <p>Have I been ghosting you? My bad. I do that a lot. I also don't spend a lot of time in my room. So, um...</p>
-                <p style="margin-top: 20px; font-style: italic;">Drop your message for me here, right into my room. I will read it. Honestly I spend more time on my computer than I do in my room. So you will reach me here.</p>
-            </div>
-        </div>
+  <div id="overlay"></div>
+
+  <!-- =========================================================
+       🏠 EXTERIOR 1 — Hallway / Rita’s Door
+  ========================================================== -->
+  <div id="exterior" class="scene active" data-scene="exterior">
+    <div id="door" class="door box">enter rita’s room</div>
+    <div id="nextExterior" class="nav-arrow right">→</div>
+    <div class="instruction">hallway</div>
+  </div>
+
+  <!-- =========================================================
+       🏠 EXTERIOR 2 — Hallway / Christine's Door
+  ========================================================== -->
+  <div id="exterior2" class="scene" data-scene="exterior2">
+    <div id="prevExterior" class="nav-arrow left">←</div>
+    <div id="door2" class="door box">enter christine's room</div>
+    <div class="instruction">hallway</div>
+  </div>
+
+  <!-- =========================================================
+       🛏 ROOM 1 — Rita’s Room
+  ========================================================== -->
+  <div id="interior" class="scene" data-scene="interior">
+    <div class="leave box" id="exit">leave room</div>
+    <div class="view box" id="viewMessage1">view message board</div>
+    <div class="instruction">rita's room</div>
+  </div>
+
+  <!-- =========================================================
+       🛏 ROOM 2 — Other Room
+  ========================================================== -->
+  <div id="room2" class="scene" data-scene="room2">
+    <div class="leave box" id="exitRoom2">leave room</div>
+    <div class="view box" id="viewMessage2">view message board</div>
+    <div class="instruction">christine's room</div>
+  </div>
+
+<!-- =========================================================
+     💬 MESSAGE BOARD 1 — Rita’s Room Board
+========================================================== -->
+<div id="messageBoard1" class="scene">
+  <div id="backFromBoard1" class="back-button">←</div>
+  <div id="messages-container-1"></div>
+  <div id="addMessageBtn1" class="write box">write a message</div>
+  <button id="clearBoard1" class="clear-board">clear all</button>
+  <div class="instruction">rita’s message board</div>
+
+  <!-- Overlay form -->
+  <div id="message-board-1" class="overlay">
+    <div class="form-box">
+      <textarea id="messageInput1" placeholder="Write your message here..."></textarea>
+      <input id="nameInput1" type="text" placeholder="Your name">
+      <div class="form-buttons">
+        <button id="sendBtn1">Submit</button>
+        <button id="closeBtn1">Close</button>
+      </div>
     </div>
+  </div>
+</div>
+
+
+<!-- =========================================================
+     💬 MESSAGE BOARD 2 — Christine’s Room Board
+========================================================== -->
+<div id="messageBoard2" class="scene">
+  <div id="backFromBoard2" class="back-button">←</div>
+  <div id="messages-container-2"></div>
+  <div id="addMessageBtn2" class="write box">write a message</div>
+  <button id="clearBoard2" class="clear-board">clear all</button>
+  <div class="instruction">christine’s message board</div>
+
+  <!-- Overlay form -->
+  <div id="message-board-2" class="overlay">
+    <div class="form-box">
+      <textarea id="messageInput2" placeholder="Write your message here..."></textarea>
+      <input id="nameInput2" type="text" placeholder="Your name">
+      <div class="form-buttons">
+        <button id="sendBtn2">Submit</button>
+        <button id="closeBtn2">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  <!-- =========================================================
+       ℹ️ ABOUT OVERLAY
+  ========================================================== -->
+  <button id="aboutBtn" class="about-button">About</button>
+
+  <div id="aboutOverlay" class="about-overlay">
+    <div class="about-content">
+      <button id="closeAbout" class="close-about">&times;</button>
+      <h2>Have I been ghosting you?</h2>
+      <p>
+        My bad. I do that a lot. I don't mean to. Thank you for coming to my virtual room, your intention means a lot. Now drop me your message here, and I will approach it with as much intentionality as you have.
+      </p>
+      <p>
+        <em>Camera obscura brings the outside into the interior. With this project I hope to open my mind and my space to my surroundings more. Because sometime the way to feel very connected to the outside world is coding a website.</em>
+      </p>
+      <p>This project is created with html, css, and js. The photos are taken by me on Sandy Woon's Canon digital camera.</p>
+    </div>
+  </div>
+
+  <!-- ===============================
+     PASSWORD GATE
+=============================== -->
+<div id="password-screen" class="password-screen active">
+  <div class="password-box">
+    <h2>Enter Password</h2>
+    <input type="password" id="site-password" placeholder="Password">
+    <button id="password-submit">Enter</button>
+    <p id="password-error"></p>
+  </div>
+</div>
+
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
