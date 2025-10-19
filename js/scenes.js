@@ -3,6 +3,14 @@ export const exterior = document.getElementById("exterior");
 export const exterior2 = document.getElementById("exterior2");
 export const interior = document.getElementById("interior");
 export const room2 = document.getElementById("room2");
+export const exterior3 = document.getElementById("exterior3");
+export const door3 = document.getElementById("door3");
+export const room3 = document.getElementById("room3");
+export const exitRoom3 = document.getElementById("exitRoom3");
+export const viewMessage3 = document.getElementById("viewMessage3");
+export const messageBoard3 = document.getElementById("messageBoard3");
+export const backFromBoard3 = document.getElementById("backFromBoard3");
+
 
 export const door = document.getElementById("door");
 export const exit = document.getElementById("exit");

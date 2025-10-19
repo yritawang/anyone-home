@@ -10,28 +10,38 @@
   <div id="overlay"></div>
 
   <!-- =========================================================
-       🏠 EXTERIOR 1 — Hallway / Rita’s Door
-  ========================================================== -->
-  <div id="exterior" class="scene active" data-scene="exterior">
-    <div id="door" class="door box">enter rita’s room</div>
-    <div id="nextExterior" class="nav-arrow right">→</div>
-    <div class="instruction">hallway</div>
-  </div>
+     🏠 EXTERIOR 1 — Hallway / Rita’s Door
+========================================================== -->
+<div id="exterior" class="scene active" data-scene="exterior">
+  <div id="door" class="door box">enter rita’s room</div>
+  <div id="nextExterior" class="nav-arrow right">→</div>
+  <div class="instruction">hallway</div>
+</div>
 
-  <!-- =========================================================
-       🏠 EXTERIOR 2 — Hallway / Christine's Door
-  ========================================================== -->
-  <div id="exterior2" class="scene" data-scene="exterior2">
-    <div id="prevExterior" class="nav-arrow left">←</div>
-    <div id="door2" class="door box">enter christine's room</div>
-    <div class="instruction">hallway</div>
-  </div>
+<!-- =========================================================
+     🏠 EXTERIOR 2 — For Christine’s Room
+========================================================== -->
+<div id="exterior2" class="scene">
+  <div id="prevExterior" class="nav-arrow left">←</div>
+  <div id="door2" class="door box">enter christine’s room</div>
+  <div id="nextExterior2" class="nav-arrow right">→</div>
+  <div class="instruction">hallway</div>
+</div>
+
+<!-- =========================================================
+     🏠 EXTERIOR 3 — For Bonnie’s Room
+========================================================== -->
+<div id="exterior3" class="scene">
+  <div id="prevExterior3" class="nav-arrow left">←</div>
+  <div id="door3" class="door box">enter bonnie’s room</div>
+  <div class="instruction">hallway</div>
+</div>
 
   <!-- =========================================================
        🛏 ROOM 1 — Rita’s Room
   ========================================================== -->
   <div id="interior" class="scene" data-scene="interior">
-    <div class="leave box" id="exit">leave room</div>
+    <div class="leave box" id="exit">leave</div>
     <div class="view box" id="viewMessage1">view message board</div>
     <div class="instruction">rita's room</div>
   </div>
@@ -40,10 +50,20 @@
        🛏 ROOM 2 — Other Room
   ========================================================== -->
   <div id="room2" class="scene" data-scene="room2">
-    <div class="leave box" id="exitRoom2">leave room</div>
+    <div class="leave box" id="exitRoom2">leave</div>
     <div class="view box" id="viewMessage2">view message board</div>
     <div class="instruction">christine's room</div>
   </div>
+
+  <!-- =========================================================
+     🏠 ROOM 3 — Interior Scene
+========================================================== -->
+<div id="room3" class="scene">
+  <div class="leave box" id="exitRoom3">leave</div>
+  <div id="viewMessage3" class="view box">view message board</div>
+  <div class="instruction">bonnie’s room</div>
+</div>
+
 
 <!-- =========================================================
      💬 MESSAGE BOARD 1 — Rita’s Room Board
@@ -92,7 +112,28 @@
   </div>
 </div>
 
+<!-- =========================================================
+     💬 MESSAGE BOARD 3 — Bonnie's Room Board
+========================================================== -->
+<div id="messageBoard3" class="scene">
+  <div id="backFromBoard3" class="back-button">←</div>
+  <div id="messages-container-3"></div>
+  <div id="addMessageBtn3" class="write box">write a message</div>
+  <button id="clearBoard3" class="clear-board">clear all</button>
+  <div class="instruction">bonnie's message board</div>
 
+  <!-- Overlay form -->
+  <div id="message-board-3" class="overlay">
+    <div class="form-box">
+      <textarea id="messageInput3" placeholder="Write your message here..."></textarea>
+      <input id="nameInput3" type="text" placeholder="Your name">
+      <div class="form-buttons">
+        <button id="sendBtn3">Submit</button>
+        <button id="closeBtn3">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <!-- =========================================================
        ℹ️ ABOUT OVERLAY

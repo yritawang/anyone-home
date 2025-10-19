@@ -93,12 +93,20 @@ html, body {
   background-image: url("../assets/images/frontdoor2.jpg");
 }
 
+#exterior3{
+  background-image: url("../assets/images/frontdoor3.jpg");
+}
+
 #interior {
   background-image: url("../assets/images/room1.JPG");
 }
 
 #room2 {
   background-image: url("../assets/images/mainroom2.JPG");
+}
+
+#room3 {
+  background-image: url("../assets/images/mainroom3.jpg");
 }
 
 #messageBoard1 {
@@ -109,6 +117,9 @@ html, body {
   background-image: url("../assets/images/messageboard2.jpg");
 }
 
+#messageBoard3 {
+  background-image: url("../assets/images/messageboard3.jpg");
+}
 
 /* =========================================================
    HOTSPOTS
@@ -118,21 +129,22 @@ html, body {
 .view.box,
 .write.box {
   position: absolute;
-  color: rgba(255, 255, 255, 0);
   font-family: 'compagnon', sans-serif;
   cursor: pointer;
   background: none;
   border: none;
   padding: 130px;
   transition: color 0.3s ease;
-  z-index: 5;
+  color: rgba(255, 255, 255, 0); /* start hidden */
+  z-index: 10;
 }
 
 .door.box:hover,
 .leave.box:hover,
 .view.box:hover,
 .write.box:hover {
-  color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255); /* visible on hover */
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
 }
 
 .door.box { font-size: 2rem; }
@@ -140,19 +152,51 @@ html, body {
 .view.box,
 .write.box { font-size: 1.5rem; }
 
+/* ===== OTHER HOTSPOTS: hidden until hover ===== */
+.leave.box,
+.view.box,
+.write.box {
+  color: rgba(255, 255, 255, 0);
+  font-size: 1.5rem;
+  padding: 130px;
+}
+
+.leave.box:hover,
+.view.box:hover,
+.write.box:hover {
+  color: rgb(255, 255, 255);
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
 /* --- Hotspot Positions --- */
-#door,
+#door{
+  bottom: 36%;
+  left: 50%;
+  transform: translateX(-50%);
+}
 #door2 {
+  bottom: 36%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#door3{
   bottom: 36%;
   left: 50%;
   transform: translateX(-50%);
 }
 #exit { top: 50%; right: 60%; }
 #exitRoom2 { bottom: 30%; left: 0.2%; }
+#exitRoom3 { bottom: 30%; left: 0.1%; }
 #viewMessage1 { bottom: 50%; left: 38%; }
 #viewMessage2 { bottom: 50%; left: 38%; }
+#viewMessage3 { bottom: 35%; right: 18%; }
 #addMessageBtn1,
 #addMessageBtn2 {
+  bottom: 38%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#addMessageBtn3 {
   bottom: 38%;
   left: 50%;
   transform: translateX(-50%);

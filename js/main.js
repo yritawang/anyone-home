@@ -14,6 +14,7 @@ import {
   backFromBoard1,
   backFromBoard2,
   transitionScene,
+  
 } from "./scenes.js";
 
 import { initMessageBoard } from "./messageBoard.js";
@@ -126,6 +127,55 @@ initMessageBoard({
   nameInputId: "nameInput2",
   messageInputId: "messageInput2",
   containerId: "messages-container-2",
+});
+
+import {
+  exterior3,
+  door3,
+  room3,
+  exitRoom3,
+  viewMessage3,
+  messageBoard3,
+  backFromBoard3,
+} from "./scenes.js";
+
+// ========================================================
+// 🏠 EXTERIOR 3 NAVIGATION
+// ========================================================
+const nextExterior2 = document.getElementById("nextExterior2"); // optional if you add this arrow
+const prevExterior3 = document.getElementById("prevExterior3");
+
+// link navigation between exterior2 ↔ exterior3
+if (nextExterior2) nextExterior2.addEventListener("click", () => transitionScene(exterior2, exterior3));
+if (prevExterior3) prevExterior3.addEventListener("click", () => transitionScene(exterior3, exterior2));
+
+// ========================================================
+// 🏠 ROOM 3 FLOW
+// ========================================================
+door3.addEventListener("click", () => transitionScene(exterior3, room3));
+exitRoom3.addEventListener("click", () => transitionScene(room3, exterior3));
+viewMessage3.addEventListener("click", () => transitionScene(room3, messageBoard3));
+backFromBoard3.addEventListener("click", () => transitionScene(messageBoard3, room3));
+
+// ========================================================
+// 💬 MESSAGE BOARD 3 INITIALIZATION
+// ========================================================
+initMessageBoard({
+  addBtnId: "addMessageBtn3",
+  boardId: "message-board-3",
+  sendBtnId: "sendBtn3",
+  closeBtnId: "closeBtn3",
+  nameInputId: "nameInput3",
+  messageInputId: "messageInput3",
+  containerId: "messages-container-3",
+});
+
+document.getElementById("clearBoard3")?.addEventListener("click", () => {
+  const container = document.getElementById("messages-container-3");
+  if (container) {
+    container.style.opacity = "0";
+    setTimeout(() => (container.innerHTML = "", container.style.opacity = "1"), 400);
+  }
 });
 
 // Smooth fade-out clear function
