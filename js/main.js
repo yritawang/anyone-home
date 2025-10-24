@@ -1,80 +1,98 @@
 import {
   exterior,
   exterior2,
+  exterior3,
   interior,
   room2,
+  room3,
   door,
   exit,
   door2,
   exitRoom2,
+  door3,
+  exitRoom3,
   viewMessage1,
   viewMessage2,
+  viewMessage3,
   messageBoard1,
   messageBoard2,
+  messageBoard3,
   backFromBoard1,
   backFromBoard2,
+  backFromBoard3,
   transitionScene,
-  
 } from "./scenes.js";
 
 import { initMessageBoard } from "./messageBoard.js";
 
-// ===========================
-// 🔒 PASSWORD GATE
-// ===========================
+// transition settings
 
+const TRANSITION = {
+  duration: 800,
+  ease: "ease-in-out",
+};
+
+// intro
 const SITE_PASSWORD = "traderjoes";
+const introScreen = document.getElementById("intro-screen");
 const passwordScreen = document.getElementById("password-screen");
 const passwordInput = document.getElementById("site-password");
 const passwordButton = document.getElementById("password-submit");
 const passwordError = document.getElementById("password-error");
+const fadeOverlay = document.getElementById("fadeOverlay");
 
-// Cinematic fade overlay
-const overlay = document.createElement("div");
-overlay.classList.add("fade-overlay");
-document.body.appendChild(overlay);
+// start state
+document.querySelectorAll(".scene, #instructions-btn, #about-btn")
+  .forEach(el => (el.style.display = "none"));
+passwordScreen.style.display = "none";
+introScreen.classList.add("active");
 
-// Hide all scenes initially
-document.querySelectorAll(".scene").forEach(scene => {
-  scene.style.display = "none";
-});
-document.body.style.overflow = "hidden";
+// intro password
+introScreen.addEventListener("click", () => {
+  fadeOverlay.classList.add("fade-to-black");
 
-// === UNLOCK FUNCTION ===
-function unlockSite() {
-  passwordScreen.classList.add("fade-out");
-  overlay.classList.add("fade-to-black");
+  document.querySelectorAll(".scene, #instructions-btn, #about-btn")
+    .forEach(el => (el.style.display = "none"));
 
   setTimeout(() => {
-    // Hide password UI while black screen is up
+    introScreen.classList.remove("active");
+    introScreen.style.display = "none";
+
+    passwordScreen.style.display = "flex";
+    requestAnimationFrame(() => (passwordScreen.style.opacity = 1));
+
+    fadeOverlay.classList.remove("fade-to-black");
+    fadeOverlay.classList.add("fade-from-black");
+  }, TRANSITION.duration);
+
+  setTimeout(() => fadeOverlay.classList.remove("fade-from-black"), TRANSITION.duration * 2);
+});
+
+// after password passes
+function unlockSite() {
+  fadeOverlay.classList.add("fade-to-black");
+
+  setTimeout(() => (passwordScreen.style.opacity = 0), TRANSITION.duration / 2);
+
+  setTimeout(() => {
     passwordScreen.style.display = "none";
-
-    // Show exterior only (not all scenes yet)
-    document.querySelectorAll(".scene").forEach(scene => {
-      scene.style.display = "none";
-    });
-    exterior.style.display = "";
+    const exterior = document.getElementById("exterior");
+    exterior.style.display = "block";
     exterior.classList.add("active");
-    exterior.style.opacity = "1";
 
-    // Fade from black after scene is ready
-    overlay.classList.remove("fade-to-black");
-    overlay.classList.add("fade-from-black");
+    fadeOverlay.classList.remove("fade-to-black");
+    fadeOverlay.classList.add("fade-from-black");
+  }, TRANSITION.duration * 2);
 
-    // Clean up overlay once done
-    setTimeout(() => {
-      overlay.remove();
-      document.body.style.overflow = "hidden";
-    }, 1200);
-  }, 800);
+  setTimeout(() => fadeOverlay.classList.remove("fade-from-black"), TRANSITION.duration * 3);
 }
 
-// === PASSWORD EVENTS ===
+// checking password
 passwordButton.addEventListener("click", () => {
   if (passwordInput.value === SITE_PASSWORD) {
     unlockSite();
   } else {
-    passwordError.textContent = "Incorrect password. Try again.";
+    passwordError.textContent = "Incorrect key. Try again.";
     passwordInput.value = "";
   }
 });
@@ -83,30 +101,36 @@ passwordInput.addEventListener("keypress", e => {
   if (e.key === "Enter") passwordButton.click();
 });
 
-// ===========================
-// 🏠 SCENE NAVIGATION
-// ===========================
+// navigating scene
 const nextExterior = document.getElementById("nextExterior");
 const prevExterior = document.getElementById("prevExterior");
+const nextExterior2 = document.getElementById("nextExterior2");
+const prevExterior3 = document.getElementById("prevExterior3");
 
-nextExterior.addEventListener("click", () => transitionScene(exterior, exterior2));
-prevExterior.addEventListener("click", () => transitionScene(exterior2, exterior));
+if (nextExterior) nextExterior.addEventListener("click", () => transitionScene(exterior, exterior2));
+if (prevExterior) prevExterior.addEventListener("click", () => transitionScene(exterior2, exterior));
+if (nextExterior2) nextExterior2.addEventListener("click", () => transitionScene(exterior2, exterior3));
+if (prevExterior3) prevExterior3.addEventListener("click", () => transitionScene(exterior3, exterior2));
 
-// ROOM 1
+// room 1
 door.addEventListener("click", () => transitionScene(exterior, interior));
 exit.addEventListener("click", () => transitionScene(interior, exterior));
 viewMessage1.addEventListener("click", () => transitionScene(interior, messageBoard1));
 backFromBoard1.addEventListener("click", () => transitionScene(messageBoard1, interior));
 
-// ROOM 2
+// room 2
 door2.addEventListener("click", () => transitionScene(exterior2, room2));
 exitRoom2.addEventListener("click", () => transitionScene(room2, exterior2));
 viewMessage2.addEventListener("click", () => transitionScene(room2, messageBoard2));
 backFromBoard2.addEventListener("click", () => transitionScene(messageBoard2, room2));
 
-// ===========================
-// 💬 MESSAGE BOARDS
-// ===========================
+// room 3
+door3.addEventListener("click", () => transitionScene(exterior3, room3));
+exitRoom3.addEventListener("click", () => transitionScene(room3, exterior3));
+viewMessage3.addEventListener("click", () => transitionScene(room3, messageBoard3));
+backFromBoard3.addEventListener("click", () => transitionScene(messageBoard3, room3));
+
+// message board
 initMessageBoard({
   addBtnId: "addMessageBtn1",
   boardId: "message-board-1",
@@ -116,8 +140,6 @@ initMessageBoard({
   messageInputId: "messageInput1",
   containerId: "messages-container-1",
 });
-
-
 
 initMessageBoard({
   addBtnId: "addMessageBtn2",
@@ -129,37 +151,6 @@ initMessageBoard({
   containerId: "messages-container-2",
 });
 
-import {
-  exterior3,
-  door3,
-  room3,
-  exitRoom3,
-  viewMessage3,
-  messageBoard3,
-  backFromBoard3,
-} from "./scenes.js";
-
-// ========================================================
-// 🏠 EXTERIOR 3 NAVIGATION
-// ========================================================
-const nextExterior2 = document.getElementById("nextExterior2"); // optional if you add this arrow
-const prevExterior3 = document.getElementById("prevExterior3");
-
-// link navigation between exterior2 ↔ exterior3
-if (nextExterior2) nextExterior2.addEventListener("click", () => transitionScene(exterior2, exterior3));
-if (prevExterior3) prevExterior3.addEventListener("click", () => transitionScene(exterior3, exterior2));
-
-// ========================================================
-// 🏠 ROOM 3 FLOW
-// ========================================================
-door3.addEventListener("click", () => transitionScene(exterior3, room3));
-exitRoom3.addEventListener("click", () => transitionScene(room3, exterior3));
-viewMessage3.addEventListener("click", () => transitionScene(room3, messageBoard3));
-backFromBoard3.addEventListener("click", () => transitionScene(messageBoard3, room3));
-
-// ========================================================
-// 💬 MESSAGE BOARD 3 INITIALIZATION
-// ========================================================
 initMessageBoard({
   addBtnId: "addMessageBtn3",
   boardId: "message-board-3",
@@ -170,45 +161,46 @@ initMessageBoard({
   containerId: "messages-container-3",
 });
 
-document.getElementById("clearBoard3")?.addEventListener("click", () => {
-  const container = document.getElementById("messages-container-3");
-  if (container) {
-    container.style.opacity = "0";
-    setTimeout(() => (container.innerHTML = "", container.style.opacity = "1"), 400);
-  }
-});
-
-// Smooth fade-out clear function
+// fade-out clear
 function fadeClearMessages(containerId, storageKey) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
-  // Add fade-out animation to all messages
   const messages = container.querySelectorAll(".message");
   messages.forEach(msg => {
-    msg.style.transition = "opacity 0.5s ease";
+    msg.style.transition = `opacity ${TRANSITION.duration / 2}ms ${TRANSITION.ease}`;
     msg.style.opacity = "0";
   });
 
-  // Wait for fade animation, then clear
   setTimeout(() => {
     container.innerHTML = "";
     localStorage.removeItem(storageKey);
-  }, 500);
+  }, TRANSITION.duration / 2);
 }
 
-// Clear buttons with fade-out effect
-document.getElementById("clearBoard1")?.addEventListener("click", () => {
-  fadeClearMessages("messages-container-1", "messages-container-1");
-});
+document.getElementById("clearBoard1")?.addEventListener("click", () =>
+  fadeClearMessages("messages-container-1", "messages-container-1")
+);
+document.getElementById("clearBoard2")?.addEventListener("click", () =>
+  fadeClearMessages("messages-container-2", "messages-container-2")
+);
+document.getElementById("clearBoard3")?.addEventListener("click", () =>
+  fadeClearMessages("messages-container-3", "messages-container-3")
+);
 
-document.getElementById("clearBoard2")?.addEventListener("click", () => {
-  fadeClearMessages("messages-container-2", "messages-container-2");
-});
+// bottom button overlays
+const instructionBtn = document.getElementById("instructionBtn");
+const instructionOverlay = document.getElementById("instructionOverlay");
+const closeInstruction = document.getElementById("closeInstruction");
 
-// ===========================
-// ℹ️ ABOUT OVERLAY
-// ===========================
+if (instructionBtn && instructionOverlay && closeInstruction) {
+  instructionBtn.addEventListener("click", () => instructionOverlay.classList.add("active"));
+  closeInstruction.addEventListener("click", () => instructionOverlay.classList.remove("active"));
+  instructionOverlay.addEventListener("click", e => {
+    if (e.target === instructionOverlay) instructionOverlay.classList.remove("active");
+  });
+}
+
 const aboutBtn = document.getElementById("aboutBtn");
 const aboutOverlay = document.getElementById("aboutOverlay");
 const closeAbout = document.getElementById("closeAbout");

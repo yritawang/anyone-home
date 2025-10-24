@@ -1,33 +1,45 @@
-/* =========================================================
-   BASE STYLES
-========================================================= */
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: black;
-  font-family: Arial, Helvetica, sans-serif;
+  background: #000000;
+  transition: background-color 0.5s ease;
+  font-family: 'anto', sans-serif;
 }
 
-/* fonts */
+:root {
+  --fade-duration: 0.8s;
+  --fade-ease: ease-in-out;
+}
+
+
 @font-face {
   font-family: 'tiny';
   src: url('../fonts/TINY5x3GX.ttf') format('truetype');
 }
+
 @font-face {
   font-family: 'compagnon';
   src: url('../fonts/Compagnon-Light.woff') format('truetype');
 }
+
 @font-face {
   font-family: 'anto';
   src: url(../fonts/BVHAntoRoundedMonoTrial-Light.otf) format('opentype');
 }
 
-/* =========================================================
-   SCENE CONTAINERS + TRANSITIONS
-========================================================= */
+/* scene transitions */
+.scene,
+#instructions-btn,
+#about-btn,
+#overlay {
+  display: none;
+  opacity: 0;
+}
+
 .scene {
   position: absolute;
   top: 0;
@@ -39,7 +51,7 @@ html, body {
   background-repeat: no-repeat;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.8s ease;
+  transition: opacity var(--fade-duration) var(--fade-ease);
   z-index: 1;
 }
 
@@ -49,42 +61,36 @@ html, body {
   z-index: 2;
 }
 
-/* Fade animations (for optional transitions) */
+/* fade in stuff */
 .fade-in {
   animation: fadeIn 0.6s ease forwards;
 }
+
 .fade-out {
   animation: fadeOut 0.6s ease forwards;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
 }
 
-/* Optional overlay for cinematic fade */
-#transitionOverlay {
-  position: fixed;
-  inset: 0;
-  background: black;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.6s ease;
-  z-index: 999;
-}
-#transitionOverlay.active {
-  opacity: 1;
-  pointer-events: all;
-}
-
-/* =========================================================
-   BACKGROUND IMAGES
-========================================================= */
+/* bg images*/
 #exterior {
   background-image: url("../assets/images/frontdoor.JPG");
 }
@@ -93,7 +99,7 @@ html, body {
   background-image: url("../assets/images/frontdoor2.jpg");
 }
 
-#exterior3{
+#exterior3 {
   background-image: url("../assets/images/frontdoor3.JPG");
 }
 
@@ -121,9 +127,53 @@ html, body {
   background-image: url("../assets/images/messageboard3.JPG");
 }
 
-/* =========================================================
-   HOTSPOTS
-========================================================= */
+/* intro screen */
+
+.intro-screen {
+  position: fixed;
+  inset: 0;
+  background: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  opacity: 0;
+  cursor: pointer;
+  pointer-events: none;
+  transition: opacity var(--fade-duration) var(--fade-ease);
+  z-index: 1500;
+}
+
+.intro-screen.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.intro-content {
+  text-align: center;
+  font-family: 'compagnon', sans-serif;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--fade-duration) var(--fade-ease);
+}
+
+.intro-screen.active .intro-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.intro-content h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.intro-content p {
+  font-size: 1.2rem;
+  opacity: 0.7;
+}
+
+/* hotspots */
 .door.box,
 .leave.box,
 .view.box,
@@ -135,7 +185,7 @@ html, body {
   border: none;
   padding: 130px;
   transition: color 0.3s ease;
-  color: rgba(255, 255, 255, 0); /* start hidden */
+  color: rgba(255, 255, 255, 0);
   z-index: 10;
 }
 
@@ -143,22 +193,21 @@ html, body {
 .leave.box:hover,
 .view.box:hover,
 .write.box:hover {
-  color: rgb(255, 255, 255); /* visible on hover */
+  color: rgb(255, 255, 255);
   text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
 }
 
-.door.box { font-size: 2rem; }
-.leave.box,
-.view.box,
-.write.box { font-size: 1.5rem; }
+.door.box {
+  font-size: 2rem;
+}
 
-/* ===== OTHER HOTSPOTS: hidden until hover ===== */
 .leave.box,
 .view.box,
 .write.box {
   color: rgba(255, 255, 255, 0);
   font-size: 1.5rem;
   padding: 130px;
+  font-size: 1.5rem;
 }
 
 .leave.box:hover,
@@ -168,41 +217,68 @@ html, body {
   text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
 }
 
-/* --- Hotspot Positions --- */
-#door{
+#door {
   bottom: 36%;
   left: 50%;
   transform: translateX(-50%);
 }
+
 #door2 {
   bottom: 36%;
   left: 50%;
   transform: translateX(-50%);
 }
-#door3{
+
+#door3 {
   bottom: 36%;
   left: 50%;
   transform: translateX(-50%);
 }
-#exit { top: 50%; right: 60%; }
-#exitRoom2 { bottom: 30%; left: 0.2%; }
-#exitRoom3 { bottom: 30%; left: 0.1%; }
-#viewMessage1 { bottom: 50%; left: 38%; }
-#viewMessage2 { bottom: 50%; left: 38%; }
-#viewMessage3 { bottom: 35%; right: 18%; }
+
+#exit {
+  top: 50%;
+  right: 60%;
+}
+
+#exitRoom2 {
+  bottom: 30%;
+  left: 0.2%;
+}
+
+#exitRoom3 {
+  bottom: 30%;
+  left: 22%;
+}
+
+#viewMessage1 {
+  bottom: 50%;
+  left: 38%;
+}
+
+#viewMessage2 {
+  bottom: 50%;
+  right: 10%;
+}
+
+#viewMessage3 {
+  bottom: 35%;
+  right: 18%;
+}
+
 #addMessageBtn1,
 #addMessageBtn2 {
   bottom: 38%;
   left: 50%;
   transform: translateX(-50%);
 }
+
 #addMessageBtn3 {
   bottom: 38%;
   left: 50%;
   transform: translateX(-50%);
 }
 
-/* --- Navigation arrows --- */
+/* nav arrows */
 .nav-arrow {
   position: absolute;
   top: 50%;
@@ -213,17 +289,58 @@ html, body {
   z-index: 10;
   padding: 20px;
   user-select: none;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--fade-duration) var(--fade-ease);
 }
-.nav-arrow:hover { opacity: 0.6; }
-.nav-arrow.right { right: 2%; }
-.nav-arrow.left { left: 2%; }
 
-/* =========================================================
-   NAVIGATION + BUTTONS
-========================================================= */
+.nav-arrow:hover {
+  opacity: 0.6;
+}
+
+.nav-arrow.right {
+  right: 2%;
+}
+
+.nav-arrow.left {
+  left: 2%;
+}
+
+/* buttons on the bottom */
+.bottom-buttons {
+  position: fixed;
+  bottom: 2rem;
+  right: 2.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1.5rem;
+  z-index: 100;
+}
+
+.bottom-buttons button {
+  position: static;
+  font-family: 'compagnon', sans-serif;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.625rem 1.125rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(3px);
+  white-space: nowrap;
+}
+
+.bottom-buttons button:hover {
+  color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+
+/* nav buttons */
 .back-button,
-.about-button {
+.about-button,
+.instruction-button {
   position: fixed;
   font-family: 'compagnon', sans-serif;
   font-size: 1rem;
@@ -239,18 +356,18 @@ html, body {
   top: 40px;
   left: 40px;
 }
-.about-button {
-  bottom: 40px;
-  right: 40px;
+
+.about-button,
+.instruction-button {
+  position: static;
 }
+
 .back-button:hover,
-.about-button:hover {
+.about-button:hover .instruction-button:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 
-/* =========================================================
-   INSTRUCTION TEXT
-========================================================= */
+/* instruction */
 .instruction {
   position: absolute;
   font-family: 'compagnon', sans-serif;
@@ -262,35 +379,51 @@ html, body {
   z-index: 2;
 }
 
-/* =========================================================
-   MESSAGE OVERLAYS
-========================================================= */
+/* message board overlays */
 .overlay,
 #message-board,
 #message-board-1,
 #message-board-2 {
   position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(73, 73, 73, 0.2);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.8s ease;
-  z-index: 999;
+  transition: opacity var(--fade-duration) var(--fade-ease);
+  z-index: 5;
 }
+
 .overlay.active,
 #message-board.active,
 #message-board-1.active,
 #message-board-2.active {
   opacity: 1;
   pointer-events: all;
+  z-index: 100;
 }
 
-/* --- Message form box --- */
+.overlay::before,
+#message-board::before,
+#message-board-1::before,
+#message-board-2::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 0;
+}
+
+/* message box */
 .form-box {
-  background: rgba(0, 0, 0, 0.7);
+  position: relative;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.85);
   border: 1px solid #444;
   padding: 24px 28px;
   width: 460px;
@@ -298,18 +431,30 @@ html, body {
   flex-direction: column;
   gap: 20px;
   transform: translateY(20px);
-  opacity: 0;
-  transition: transform 0.6s ease, opacity 0.6s ease;
+  opacity: 1;
+  pointer-events: all;
 }
+
 .overlay.active .form-box,
 #message-board.active .form-box,
 #message-board-1.active .form-box,
 #message-board-2.active .form-box {
-  transform: translateY(0);
   opacity: 1;
+  pointer-events: all;
 }
 
-/* --- Inputs --- */
+.form-box textarea,
+.form-box input {
+  background: #111;
+  color: #eee;
+  border: 1px solid #666;
+  padding: 10px;
+  font-family: "Courier New", monospace;
+  z-index: 15;
+  position: relative;
+}
+
+/* inputs for the form */
 textarea,
 input {
   width: 100%;
@@ -319,14 +464,19 @@ input {
   padding: 12px;
   box-sizing: border-box;
 }
-textarea { height: 120px; resize: none; }
 
-/* --- Buttons --- */
+textarea {
+  height: 120px;
+  resize: none;
+}
+
+/* buttons */
 .form-buttons {
   display: flex;
   justify-content: center;
   gap: 10px;
 }
+
 .form-buttons button {
   background: transparent;
   color: #fff;
@@ -335,32 +485,34 @@ textarea { height: 120px; resize: none; }
   cursor: pointer;
   transition: background 0.3s ease, border 0.3s ease, color 0.3s ease;
 }
+
 .form-buttons button:hover {
   background: #fff;
   color: #000;
   border-color: #fff;
 }
 
-/* =========================================================
-   ABOUT OVERLAY
-========================================================= */
+/* about overlay */
+
 .about-overlay {
   position: fixed;
   font-family: 'anto', monospace;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.6s ease;
+  transition: opacity var(--fade-duration) var(--fade-ease);
   z-index: 1000;
 }
+
 .about-overlay.active {
   opacity: 1;
   pointer-events: auto;
 }
+
 .about-content {
   background: black;
   color: white;
@@ -371,12 +523,14 @@ textarea { height: 120px; resize: none; }
   line-height: 1.6;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity var(--fade-duration) var(--fade-ease);
 }
+
 .about-overlay.active .about-content {
   opacity: 1;
   transform: translateY(0);
 }
+
 .close-about {
   position: absolute;
   top: 10px;
@@ -386,15 +540,19 @@ textarea { height: 120px; resize: none; }
   color: white;
   font-size: 28px;
   cursor: pointer;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--fade-duration) var(--fade-ease);
 }
-.close-about:hover { opacity: 0.7; }
 
-/* =========================================================
-   MESSAGE NOTES
-========================================================= */
+.close-about:hover {
+  opacity: 0.7;
+}
+
+/* ,essage style */
+
 .message {
   position: absolute;
+  cursor: grab;
+  user-select: none;
   background: rgba(255, 255, 255, 0.15);
   color: white;
   padding: 16px 20px;
@@ -415,7 +573,7 @@ textarea { height: 120px; resize: none; }
 }
 
 .clear-board {
-  position: fixed; /* make it float above everything */
+  position: fixed;
   top: 40px;
   right: 40px;
   padding: 8px 16px;
@@ -426,7 +584,7 @@ textarea { height: 120px; resize: none; }
   font-size: 14px;
   letter-spacing: 0.5px;
   cursor: pointer;
-  z-index: 9999; /* ensure it's always visible */
+  z-index: 9999;
   transition: background 0.3s ease;
 }
 
@@ -434,30 +592,34 @@ textarea { height: 120px; resize: none; }
   background: rgba(255, 255, 255, 0.35);
 }
 
-
-/* =========================================================
-   ANIMATIONS
-========================================================= */
+/* animations */
 @keyframes fadeInMessage {
   0% {
     opacity: 0;
     transform: translateY(20px) scale(0.95);
     filter: blur(2px);
   }
+
   60% {
     opacity: 1;
     transform: translateY(-4px) scale(1.02);
     filter: blur(0);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
 
-/* =========================================================
-   PASSWORD FADE-IN CINEMATIC
-========================================================= */
+/* password fade */
+
+#password-screen {
+  display: none;
+  opacity: 0;
+  transition: opacity var(--fade-duration) var(--fade-ease);
+}
+
 .password-screen {
   position: fixed;
   inset: 0;
@@ -468,7 +630,7 @@ textarea { height: 120px; resize: none; }
   justify-content: center;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.6s ease;
+  transition: opacity var(--fade-duration) var(--fade-ease);
   z-index: 2000;
 }
 
@@ -480,7 +642,7 @@ textarea { height: 120px; resize: none; }
 .password-screen.fade-out {
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.8s ease;
+  transition: opacity var(--fade-duration) var(--fade-ease);
 }
 
 .password-box {
@@ -531,32 +693,71 @@ textarea { height: 120px; resize: none; }
   height: 1em;
 }
 
-/* ===== Fade Overlay for Transition ===== */
+/* fade overlay transition */
 .fade-overlay {
   position: fixed;
   inset: 0;
   background: black;
   opacity: 0;
-  transition: opacity 0.8s ease;
+  transition: opacity var(--fade-duration) var(--fade-ease);
   pointer-events: none;
   z-index: 9999;
 }
 
 .fade-to-black {
+  opacity: 1 !important;
+}
+
+.fade-from-black {
+  opacity: 0 !important;
+}
+
+
+.intro-screen {
+  position: fixed;
+  inset: 0;
+  background: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity var(--fade-duration) var(--fade-ease);
+  z-index: 1500;
+}
+
+.intro-screen.active {
   opacity: 1;
   pointer-events: all;
 }
 
-.fade-from-black {
+.intro-content {
+  text-align: center;
+  font-family: 'compagnon', sans-serif;
   opacity: 0;
-  pointer-events: none;
+  transform: translateY(20px);
+  transition: opacity var(--fade-duration) var(--fade-ease);
+}
+
+.intro-screen.active .intro-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.intro-content h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.intro-content p {
+  font-size: 1.2rem;
+  opacity: 0.7;
 }
 
 
-
-/* =========================================================
-   UTILITIES
-========================================================= */
-.hidden { display: none !important; }
-
-
+/* utilities */
+.hidden {
+  display: none !important;
+}
